@@ -239,7 +239,11 @@ function smd_query($atts, $thing = null)
     }
 
     if ($mode == 'output') {
+      if(is_countable($rs)) {
         $numrows = count($rs);
+      } else {
+        $numrows = 0;
+      }
         $truePart = EvalElse($thing, 1);
 
         if ($rs) {
@@ -268,7 +272,11 @@ function smd_query($atts, $thing = null)
             }
 
             $rs = array_slice($rs, $pgoffset, (($limit==0) ? 99999 : $limit));
-            $pagerows = count($rs);
+            if(is_countable($rs)) {
+              $pagerows = count($rs);
+            } else {
+              $pagerows = 0;
+            }
 
             $replacements = $repagements = $colreplacements = array();
             $page_rowcnt = ($count == "up") ? 0 : $pagerows-1;
